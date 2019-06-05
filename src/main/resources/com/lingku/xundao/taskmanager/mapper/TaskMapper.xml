@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.taskmanager.mapper.TaskMapper">
+
+	<!-- 主页任务信息展示 -->
+	<select id="mainPage" resultType="com.lingku.xundao.taskmanager.pojo.MainPageInfo">
+
+
+	</select>
+
+
+
+	<!--新建任务 -->
+	<insert id="addTask" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+		inster into ....
+		<if test="username!=null and username!='' and username!='null'">
+			username=#{username},
+		</if>
+		<if test="end_time!=null and end_time!='' and end_time!='null'">
+			password = #{password},
+		</if>
+		<if test="start_time!=null and start_time!='' and start_time!='null'">
+			role_id= #{role_id},
+		</if>
+		<if test="end_time!=null and end_time!='' and end_time!='null'">
+			depe_id = #{dept_id},
+		</if>
+		<if test="end_time!=null and end_time!='' and end_time!='null'">
+			name = #{name}
+		</if>
+	</insert>
+
+
+	<!-- 查看任务信息列表 -->
+	<select id="taskList" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo"
+		resultType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+
+		select
+
+		from
+
+		....
+
+	</select>
+
+
+	<!--查看任务记录 -->
+
+	<select id="taskRecord" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo"
+		resultType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+
+		select
+
+		from
+		..
+	</select>
+
+	<!--更新用户信息 -->
+
+	<update id="updateTaskInfo" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+
+		update
+
+
+	</update>
+
+
+	<!-- 删除任务信息(单个)逻辑删除 -->
+
+	<update id="delTaskList" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+
+
+	</update>
+
+	<!--删除多个 -->
+
+	<update id="delMultiTasklist">
+
+
+	</update>
+
+
+
+
+
+</mapper>

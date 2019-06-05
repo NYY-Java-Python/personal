@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.linesitemanager.mapper.SiteLineMapper">
+
+	<!-- 获取所有站点信息 -->
+	<select id="siteInfo" resultType="com.lingku.xundao.linesitemanager.pojo.PatSite">
+		select
+
+		from
+		....
+
+	</select>
+
+	<!-- 更新站点信息 -->
+	<update id="updateSiteInfo" parameterType="com.lingku.xundao.linesitemanager.pojo.PatSite">
+
+		update
+
+		set
+
+		....
+
+	</update>
+
+	<!--删除站点信息 -->
+	<update id="delSite" parameterType="com.lingku.xundao.linesitemanager.pojo.PatSite">
+		update
+
+		set
+
+		....
+
+
+	</update>
+
+	<!-- 删除站点信息(多个) -->
+	<update id="delMulitSit">
+		update
+
+		set
+
+		....
+
+	</update>
+
+	<!--增加站点信息 -->
+	<insert id="addSiteInfo">
+
+		instert into
+
+	</insert>
+
+
+	<!-- 获取线路信息 -->
+	<select id="lineInfo" resultType="com.lingku.xundao.linesitemanager.pojo.LineInfo">
+
+		select
+
+		from
+
+		...
+
+	</select>
+
+	<!-- 添加线路信息 -->
+	<insert id="addLineInfo" parameterType="com.lingku.xundao.linesitemanager.pojo.LineInfo">
+
+		insert into
+
+		...
+
+		...
+
+	</insert>
+
+	<!-- -->
+
+
+</mapper>

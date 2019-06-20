@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.linesitemanager.mapper.SiteLineMapper">
+
+	<!-- 获取所有站点信息 -->
+	<select id="siteInfo" resultType="com.lingku.xundao.linesitemanager.pojo.PatSite">
+		select
+		pId,siteName,magcardNum,siteStatus,delFlag,
+		createTime,createTime,createPerson,updateTime,updatePerson,
+		remark
+		from
+		pat_site
+		<where>
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
+				and siteName like concat ('%',#{siteName},'%')
+			</if>
+		</where>
+	</select>
+
+	<!--增加站点信息 -->
+	<insert id="addSiteInfo">
+		insert into pat_site
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
+				siteName,
+			</if>
+			<if
+				test="magcardNum != null and magcardNum != '' and magcardNum != 'null'">
+				magcardNum,
+			</if>
+			<if
+				test="siteStatus != null and siteStatus != '' and siteStatus != 'null'">
+				siteStatus,
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				delFlag,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				createPerson,
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
+				#{siteName},
+			</if>
+			<if
+				test="magcardNum != null and magcardNum != '' and magcardNum != 'null'">
+				#{magcardNum},
+			</if>
+			<if
+				test="siteStatus != null and siteStatus != '' and siteStatus != 'null'">
+				#{siteStatus},
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				#{delFlag},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				#{createPerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更新站点信息 -->
+	<update id="updateSiteInfo" parameterType="com.lingku.xundao.linesitemanager.pojo.PatSite">
+		update pat_site
+		<set>
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
+				siteName = #{siteName},
+			</if>
+			<if
+				test="magcardNum != null and magcardNum != '' and magcardNum != 'null'">
+				magcardNum = #{magcardNum},
+			</if>
+			<if
+				test="siteStatus != null and siteStatus != '' and siteStatus != 'null'">
+				siteStatus = #{siteStatus},
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				delFlag = #{delFlag},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime},
+			</if>
+			<if
+				test="updatePerson != null and updatePerson != '' and updatePerson != 'null'">
+				updatePerson = #{updatePerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark = #{remark},
+			</if>
+		</set>
+		<where>
+			<if test="pId != null">
+				pId = #{pId}
+			</if>
+		</where>
+	</update>
+
+	<!--删除站点信息 -->
+	<!-- <update id="delSite" parameterType="com.lingku.xundao.linesitemanager.pojo.PatSite"> 
+		</update> -->
+
+	<delete id="delSite" parameterType="java.lang.Integer">
+		delete from pat_site where pId
+		= #{pId}
+	</delete>
+
+	<!-- 删除站点信息(多个) -->
+	<!-- <update id="delMulitSit"> </update> -->
+
+	<delete id="delMulitSit">
+		delete from pat_site where pId in
+		<foreach item="pId" collection="array" open="(" separator=","
+			close=")">
+			#{pId}
+		</foreach>
+	</delete>
+
+	<!--======================================= 线路管理 ================================ -->
+
+<!-- 获取线路信息 -->
+	<select id="lineInfo" resultType="com.lingku.xundao.linesitemanager.pojo.LineInfo">
+		select
+		lId,taskTable,startSite,endSite,patrolType,
+		siteStatus,remark
+		from
+		line_Info
+		<where>
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
+				taskTable like concat ('%',#{taskTable},'%')
+			</if>
+			
+			<if test="lId != null">
+				and lId = #{lId}
+			</if>
+			
+			<if test="patrolType != null and patrolType !='' and patrolType != 'null'">
+				and patrolType = #{patrolType}
+			</if>
+			
+		</where>
+	</select>
+
+	<!-- 添加线路信息 -->
+	<insert id="addLineInfo" parameterType="com.lingku.xundao.linesitemanager.pojo.LineInfo">
+
+		insert into line_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
+				taskTable,
+			</if>
+			<if test="startSite != null and startSite != '' and startSite != 'null'">
+				startSite,
+			</if>
+			<if test="endSite != null and endSite != '' and endSite != 'null'">
+				endSite,
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				patrolType,
+			</if>
+			<if
+				test="siteStatus != null and siteStatus != '' and siteStatus != 'null'">
+				siteStatus,
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				delFlag,
+			</if>
+			<if
+				test="createTime != null">
+				createTime,
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				createPerson,
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark,
+			</if>
+			<if test="startCode != null and startCode != '' and startCode != 'null'">
+				startCode,
+			</if>
+			<if test="endCode != null and endCode != '' and endCode != 'null'">
+				endCode,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
+				#{taskTable},
+			</if>
+			<if test="startSite != null and startSite != '' and startSite != 'null'">
+				#{startSite},
+			</if>
+			<if test="endSite != null and endSite != '' and endSite != 'null'">
+				#{endSite},
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				#{patrolType},
+			</if>
+			<if
+				test="siteStatus != null and siteStatus != '' and siteStatus != 'null'">
+				#{siteStatus},
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				#{delFlag},
+			</if>
+			<if
+				test="createTime != null">
+				#{createTime},
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				#{createPerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				#{remark},
+			</if>
+			<if test="startCode != null and startCode != '' and startCode != 'null'">
+				#{startCode},
+			</if>
+			<if test="endCode != null and endCode != '' and endCode != 'null'">
+				#{endCode},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更新线路信息 -->
+	<update id="udpateLineInfo">
+		update line_info
+		<set>
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
+				taskTable = #{taskTable},
+			</if>
+			<if test="startSite != null and startSite != '' and startSite != 'null'">
+				startSite = #{startSite},
+			</if>
+			<if test="endSite != null and endSite != '' and endSite != 'null'">
+				endSite = #{endSite},
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				patrolType = #{patrolType},
+			</if>
+			<if
+				test="siteStatus != null and siteStatus != '' and siteStatus != 'null'">
+				siteStatus = #{siteStatus},
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				delFlag = #{delFlag},
+			</if>
+			<if
+				test="updateTime != null">
+				updateTime = #{updateTime},
+			</if>
+			<if
+				test="updatePerson != null and updatePerson != '' and updatePerson != 'null'">
+				updatePerson = #{updatePerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark = #{remark},
+			</if>
+			<if test="startCode != null and startCode != '' and startCode != 'null'">
+				startCode = #{startCode},
+			</if>
+			<if test="endCode != null and endCode != '' and endCode != 'null'">
+				endCode = #{endCode},
+			</if>
+		</set>
+		<where>
+			<if test="lId != null">
+				lId = #{lId}
+			</if>
+		</where>
+	</update>
+
+	<!-- 删除线路信息 -->
+	<!-- <update id="delLineInfo"> update ... ... </update> -->
+	<delete id="delLineInfo" parameterType="java.lang.Integer">
+		delete from line_info
+		where lId = #{lId}
+	</delete>
+
+	<!-- 删除线路信息 多个 -->
+	<!-- <update id="delMulitSiteinfo"> </update> -->
+	<delete id="delMulitSiteinfo">
+			delete from line_info where lId in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+
+	<!--线路站点管理============================= 绑定任务表(分日常模式和节假日模式)之间的所有的站点关系====== -->
+
+
+
+
+
+</mapper>

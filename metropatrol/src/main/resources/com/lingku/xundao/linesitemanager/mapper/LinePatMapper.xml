@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.linesitemanager.mapper.LinePatMapper">
+
+	<!--查询基础线路站点绑定关系 -->
+	<select id="baseLinePatInfo" resultType="com.lingku.xundao.linesitemanager.pojo.PatLine">
+		SELECT
+		pl.lpId,
+		pl.lId,
+		pl.taskTable,
+		GROUP_CONCAT(pl.pId) patIds,
+		GROUP_CONCAT(pl.siteName)
+		patNames
+		FROM
+		pat_line pl
+		GROUP BY
+		pl.lId
+	</select>
+
+	<!-- 删除线路中的站点 -->
+	<delete id="delLinePat" parameterType="java.lang.Integer">
+		delete from pat_line where
+		lpId = #{lpId}
+	</delete>
+
+	<!-- 更新线路站点绑定信息 -->
+	<update id="updateLinePatInfo" parameterType="com.lingku.xundao.linesitemanager.pojo.PatLine">
+		update
+		pat_line
+		<set>
+			<if test="lId != null">
+				lId = #{lId},
+			</if>
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
+				taskTable = #{taskTable},
+			</if>
+			<if test="siteName != null and siteName !='' and siteName = 'null'">
+				siteName = #{siteName},
+			</if>
+			<if test="magcardNum != null and magcardNum !='' and magcardNum != 'null'">
+				magcardNum = #{magcardNum},
+			</if>
+			<if test="pId != null">
+				pId = #{pId},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime},
+			</if>
+			<if
+				test="updatePerson != null and updatePerson !='' and updatePerson !='null'">
+				updatePerson = #{updatePerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark = #{remark},
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				patrolType = #{patrolType}
+			</if>
+		</set>
+		where
+		lpId = #{lpId}
+	</update>
+
+	<!-- 添加线路站点绑定关系 -->
+	<insert id="addLinePatInfo" parameterType="com.lingku.xundao.linesitemanager.pojo.PatLine">
+		insert
+		into
+		pat_line
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="lId != null">
+				lId,
+			</if>
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null' ">
+				taskTable,
+			</if>
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
+				siteName,
+			</if>
+
+			<if
+				test="magcardNum != null and magcardNum != '' and magcardNum != 'null'">
+				magcardNum,
+			</if>
+
+			<if test="pId != null">
+				pId,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				createPerson,
+			</if>
+			<if test="remark != null and remark != '' and remark !='null'">
+				remark,
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				patrolType
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="lId != null">
+				#{lId},
+			</if>
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null' ">
+				#{taskTable},
+			</if>
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
+				#{siteName},
+			</if>
+
+			<if
+				test="magcardNum != null and magcardNum != '' and magcardNum != 'null'">
+				#{magcardNum},
+			</if>
+
+			<if test="pId != null">
+				#{pId},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				#{createPerson},
+			</if>
+			<if test="remark != null and remark != '' and remark !='null'">
+				#{remark},
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				#{patrolType}
+			</if>
+		</trim>
+	</insert>
+
+</mapper>

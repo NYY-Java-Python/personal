@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.taskmanager.mapper.TaskMapper">
+
+	<!-- 主页任务信息展示 -->
+	<!-- 新建,进行中 ,已完成 ,分工班 -->
+	<select id="mainPage" resultType="com.lingku.xundao.taskmanager.pojo.MainPageInfo">
+		select count(case
+		when
+		taskStatus = 0 then
+		1
+		end) all_new_task,
+		count(case
+		when taskStatus = 1
+		then
+		1
+		end)
+		all_ongoing_task,
+		count(case
+		when taskStatus = 2 then
+		1
+		end)
+		all_finish_task
+		from task_info
+	</select>
+
+	<!-- 分工班后再分状态 -->
+	<select id="deptCout" resultType="com.lingku.xundao.taskmanager.pojo.MainPageInfo">
+		select count(case
+		when
+		taskStatus = 0 then
+		1
+		end) dept_new_task,
+		count(case
+		when taskStatus = 1
+		then
+		1
+		end)
+		dept_ongoing_task,
+		count(case
+		when taskStatus = 2 then
+		1
+		end)
+		dept_finish_task,
+		deptId,deptName
+		from task_info
+		GROUP BY
+		deptId
+	</select>
+
+	<!--新建任务 -->
+	<insert id="addTask" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+		insert into task_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="lId != null">
+				lId,
+			</if>
+			<if test="taskTable != null and taskTable !='' and taskTable != 'null'">
+				taskTable,
+			</if>
+			<if test="deptId != null">
+				deptId,
+			</if>
+			<if test="deptName != null and deptName!='' and deptName!='null'">
+				deptName,
+			</if>
+			<if
+				test="overstatus != null and overstatus != '' and overstatus != 'null'">
+				overstatus,
+			</if>
+			<if test="workId != null">
+				workId,
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				patrolType,
+			</if>
+			<if
+				test="taskStatus != null and taskStatus != '' and taskStatus != 'null'">
+				taskStatus,
+			</if>
+
+			<if test="startTime != null and startTime != '' and startTime != 'null'">
+				startTime,
+			</if>
+			<if test="endTime != null and endTime != '' and endTime != 'null'">
+				endTime,
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				delFlag,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="updteTime != null ">
+				updteTime,
+			</if>
+			<if
+				test="updatePerson != null and updatePerson != '' and updatePerson != 'null'">
+				updatePerson,
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark,
+			</if>
+			<if
+				test="isException != null and isException != '' and isException != 'null'">
+				isException
+			</if>
+		</trim>
+
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+
+			<if test="lId != null">
+				#{lId},
+			</if>
+			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
+				#{taskTable},
+			</if>
+			<if test="deptId != null">
+				#{deptId},
+			</if>
+			<if test="deptName != null and deptName!='' and deptName != 'null'">
+				#{deptName},
+			</if>
+			<if
+				test="overstatus != null and overstatus != '' and overstatus != 'null'">
+				#{overstatus},
+			</if>
+
+			<if test="workId != null">
+				#{workId},
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				#{patrolType},
+			</if>
+			<if test="taskStatus != null and taskStatus !='' and taskStatus != 'null'">
+				#{taskStatus},
+			</if>
+			<if test="startTime != null">
+				#{startTime},
+			</if>
+			<if test="endTime != null">
+				#{endTime},
+			</if>
+			<if test="delFlag != null and delFlag != '' and delFlag != 'null'">
+				#{delFlag},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				#{createPerson},
+			</if>
+			<if test="updteTime != null">
+				#{updteTime},
+			</if>
+			<if
+				test="updatePerson != null and updatePerson != '' and updatePerson != 'null'">
+				#{updatePerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				#{remark},
+			</if>
+			<if
+				test="isException != null and isException != '' and isException != 'null'">
+				#{isException}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 查看任务信息列表 -->
+	<select id="taskList" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo"
+		resultType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+		select
+		tId,taskTable,deptName,deptId,patrolType,
+		taskStatus,createTime,createPerson,startTime,remark,
+		updatePerson
+		from
+		task_info
+		<where>
+			<if test="startTime != null">
+				and startTime &gt;= #{startTime}
+			</if>
+			<if test="endTime != null">
+				and endTime &lt;= #{endTime}
+			</if>
+			<if test="taskStatus != null and taskStatus !='' and taskStatus != 'null'">
+				and taskStatus = #{taskStatus}
+			</if>
+			<if test="taskTable != null and taskTable !='' and taskTable != 'null'">
+				and taskTable like concat('%',#{taskTable},'%')
+			</if>
+			<if test="deptId != null">
+				and deptId = #{deptId}
+			</if>
+			<if
+				test="patrolType != null and patrolType != '' and patrolType != 'null'">
+				and patrolType = #{patrolType}
+			</if>
+			<if test="tId != null">
+				and tId = #{tId}
+			</if>
+
+		</where>
+	</select>
+
+	<!--更新任务信息 -->
+	<update id="updateTaskInfo" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+		update task_info
+		<set>
+			<if test="startTime != null">
+				startTime = #{startTime},
+			</if>
+			<if test="patrolType != null and patrolType !='' and patrolType !='null'">
+				patrolType = #{patrolType},
+			</if>
+			<if test="taskTable != null and taskTable !='' and taskTable != 'null'">
+				taskTable = #{taskTable},
+			</if>
+			<if test="deptId != null">
+				deptId = #{deptId},
+			</if>
+			<if test="deptName != null and deptName !='' and deptName != 'null'">
+				deptName = #{deptName},
+			</if>
+
+			<if test="taskStatus != null and taskStatus !='' and taskStatus != 'null'">
+				taskStatus = #{taskStatus},
+			</if>
+			<if test="remark != null and remark !='' and remark != 'null'">
+				remark = #{remark},
+			</if>
+			<if
+				test="updatePerson != null and updatePerson !='' and updatePerson != 'null'">
+				updatePerson = #{updatePerson},
+			</if>
+			<if test="updteTime">
+				updteTime = #{updteTime},
+			</if>
+
+			<if
+				test="overstatus != null and overstatus != '' and overstatus != 'null'">
+				overstatus = #{overstatus}
+			</if>
+		</set>
+		<where>
+			tId = #{tId}
+		</where>
+	</update>
+
+	<!-- 删除任务信息(单个)删除 -->
+	<!-- <update id="delTaskList" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo"> 
+		</update> -->
+	<delete id="delTaskList" parameterType="java.lang.Integer">
+		delete from task_info
+		where tId = #{tId}
+	</delete>
+
+	<!--删除多个 -->
+	<delete id="delMultiTasklist">
+		delete from task_info where tId in
+		<foreach item="id" collection="array" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+	<!--查看任务记录 -->
+	<select id="taskRecord" parameterType="com.lingku.xundao.taskmanager.pojo.TaskInfo"
+		resultType="com.lingku.xundao.taskmanager.pojo.TaskInfo">
+		select
+		from
+		..
+	</select>
+
+</mapper>

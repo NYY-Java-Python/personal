@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.systemmanager.mapper.UserMapper">
+
+	<!-- 获取用户基本信息 -->
+	<select id="userInfo" parameterType="com.lingku.xundao.systemmanager.pojo.UserInfo"
+		resultType="com.lingku.xundao.systemmanager.pojo.UserInfo">
+		select
+		userId,username,name,password,deptId,
+		email,mobile,status,CreteById,createTime,
+		updateTime,sex,birthday,address,province,
+		city,district,roleId
+		from
+		sys_user
+		<where>
+			<trim>
+				<if test="username!=null and username!='' and username!='null'">
+					and username like concat('%',#{username},'%')
+				</if>
+				<if test="name!=null and name!='' and name!='null'">
+					and name like concat('%',#{name},'%')
+				</if>
+				<if test="deptId != null">
+					and deptId = #{deptId}
+				</if>
+				<if test="userId != null">
+					and userId = #{userId}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+	<!-- 添加用户信息 -->
+	<insert id="addUser" parameterType="com.lingku.xundao.systemmanager.pojo.UserInfo">
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="username !=null and username !=''">
+				username,
+			</if>
+			<if test="name !=null and name !=''">
+				name,
+			</if>
+			<if test="password !=null and password !=''">
+				password,
+			</if>
+			<if test="deptId !=null">
+				deptId,
+			</if>
+			<if test="email !=null and email !=''">
+				email,
+			</if>
+			<if test="mobile !=null and mobile !=''">
+				mobile,
+			</if>
+			<if test="status !=null and status !=''">
+				status,
+			</if>
+			<if test="CreteById !=null">
+				CreteById,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if test="sex !=null and sex !=''">
+				sex,
+			</if>
+			<if test="birthday !=null">
+				birthday,
+			</if>
+			<if test="address !=null and address !=''">
+				address,
+			</if>
+			<if test="province !=null and province !=''">
+				province,
+			</if>
+			<if test="city !=null and city !=''">
+				city,
+			</if>
+			<if test="district !=null and district !=''">
+				district,
+			</if>
+			<if test="roleId !=null">
+				roleId,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="username !=null and username !=''">
+				#{username},
+			</if>
+			<if test="name !=null and name !=''">
+				#{name},
+			</if>
+			<if test="password !=null and password !=''">
+				#{password},
+			</if>
+			<if test="deptId !=null">
+				#{deptId},
+			</if>
+			<if test="email !=null and email !=''">
+				#{email},
+			</if>
+			<if test="mobile !=null and mobile !=''">
+				#{mobile},
+			</if>
+			<if test="status !=null and status !=''">
+				#{status},
+			</if>
+			<if test="CreteById !=null">
+				#{CreteById},
+			</if>
+			<if test="createTime !=null">
+				#{createTime},
+			</if>
+			<if test="sex !=null and sex !=''">
+				#{sex),
+			</if>
+			<if test="birthday !=null">
+				#{birthday),
+			</if>
+			<if test="address !=null and address !=''">
+				#{address),
+			</if>
+			<if test="district !=null and district !=''">
+				#{province),
+			</if>
+			<if test="roleId !=null">
+				#{roleId},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更新用户信息 -->
+	<update id="updateUserInfo" parameterType="com.lingku.xundao.systemmanager.pojo.UserInfo">
+		update sys_user
+		<set>
+			<if test="username != null and username !='' and username !='null'">
+				username = #{username},
+			</if>
+			<if test="name != null and name !='' and name !='null'">
+				name = #{name},
+			</if>
+			<if test="password != null and password != '' and password != 'null'">
+				password = #{password},
+			</if>
+			<if test="deptId != null">
+				deptId = #{deptId},
+			</if>
+			<if test="email != null and email !='' and email !='null'">
+				email = #{email},
+			</if>
+			<if test="status != null and status !='' and status !='null'">
+				status = #{status},
+			</if>
+			<if test="roleId != null">
+				roleId = #{roleId},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime},
+			</if>
+		</set>
+		<where>
+			userId = #{userId}
+		</where>
+	</update>
+
+	<!-- 删除用户信息 -->
+	<delete id="deleteUserInfo">
+		delete from sys_user where userId = #{userId}
+	</delete>
+
+	<!-- 删除多个用户信息 -->
+	<delete id="delMulitUserInfo">
+		delete from sys_user where userId in
+		<foreach item="userId" collection="array" open="(" separator=","
+			close=")">
+			#{userId}
+		</foreach>
+	</delete>
+
+</mapper>

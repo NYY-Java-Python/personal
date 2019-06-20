@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: metropatrol
+Implementation-Version: 1.0-SNAPSHOT
+Built-By: win 10
+Implementation-Vendor-Id: com.metropatrol
+Build-Jdk: 1.8.0_74
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/metropatrol
+Created-By: Maven Integration for Eclipse
+

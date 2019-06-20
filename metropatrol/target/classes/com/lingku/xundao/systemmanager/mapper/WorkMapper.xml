@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.systemmanager.mapper.WorkMapper">
+
+	<!-- 获取基础工班信息 -->
+	<select id="workInfo" parameterType="com.lingku.xundao.systemmanager.pojo.WorkDept"
+		resultType="com.lingku.xundao.systemmanager.pojo.WorkDept">
+		select
+		wd.deptId,wd.deptName,wd.orderNum,wd.workStatus,
+		wd.subId,sl.subwayName
+		from
+		subway_line sl
+		join
+		work_dept wd
+		on
+		sl.subId =
+		wd.subId
+		<where>
+			<if test="deptName != null and deptName !='' and deptName != 'null'">
+				wd.deptName like concat('%',#{deptName},'%')
+			</if>
+			<if test="subwayName != null and subwayName !='' and subwayName != 'null'">
+				and subwayName like concat('%',#{subwayName},'%')
+			</if>
+			<if test="deptId != null">
+				and wd.deptId = #{deptId}
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加工班信息 -->
+	<insert id="addWrokInfo" parameterType="com.lingku.xundao.systemmanager.pojo.WorkDept">
+		insert into
+		work_dept
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="deptId != null">
+				deptId,
+			</if>
+			<if test="subId != null">
+				subId,
+			</if>
+			<if test="deptName != null and deptName != '' and deptName != 'null'">
+				deptName,
+			</if>
+			<if test="orderNum != null">
+				orderNum,
+			</if>
+			<if test="workStatus != null">
+				workStatus,
+			</if>
+			<if test="superiorId != null">
+				superiorId,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="deptId != null">
+				#{deptId},
+			</if>
+			<if test="subId != null">
+				#{subId},
+			</if>
+			<if test="
+				deptName != null and deptName !='' and deptName !='null' ">
+				#{deptName},
+			</if>
+			<if test="orderNum != null">
+				#{orderNum},
+			</if>
+			<if test="workStatus != null">
+				#{workStatus},
+			</if>
+			<if test="superiorId != null">
+				#{superiorId},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更新工班信息 -->
+	<update id="udpateWordInfo" parameterType="com.lingku.xundao.systemmanager.pojo.WorkDept">
+		update work_dept
+		<set>
+			<if test="deptName !=null and deptName != '' and deptName !='null'">
+				deptName = #{deptName},
+			</if>
+			<if test="orderNum != null">
+				orderNum = #{orderNum},
+			</if>
+			<if test="workStatus != null">
+				workStatus = #{workStatus},
+			</if>
+			<if test="superiorId != null">
+				superiorId = #{superiorId}
+			</if>
+		</set>
+		<where>
+			<if test="deptId != null">
+				deptId = #{deptId}
+			</if>
+		</where>
+	</update>
+
+	<!-- 删除工班信息 -->
+	<delete id="delWorkInfo" parameterType="java.lang.Integer">
+		delete
+		from
+		work_dept
+		<where>
+			deptId= #{deptId}
+		</where>
+	</delete>
+
+	<!-- 批量删除工班信息 -->
+	<delete id="delMulitWorkDeptInfo">
+		delete from work_dept where deptId in
+		<foreach item="deptId" collection="array" open="(" separator=","
+			close=")">
+			#{deptId}
+		</foreach>
+	</delete>
+
+	<!--========================================地铁线路信息====================== -->
+	<!-- 获取地铁线路信息 -->
+	<select id="getSubwayLineInfo" parameterType="com.lingku.xundao.systemmanager.pojo.SubwayLineInfo"
+		resultType="com.lingku.xundao.systemmanager.pojo.SubwayLineInfo">
+		select
+		subId,subwayName,createTime,createPerson,updateTime,
+		updatePerson
+		from
+		subway_line
+		<where>
+			<if
+				test="createPerson != null and createPerson !='' and createPerson !='null'">
+				createPerson like concat('%',#{createPerson},'%')
+			</if>
+			<if test="subwayName != null and subwayName !='' and subwayName !='null'">
+				and subwayName like concat('%',#{subwayName},'%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 增加地铁线路信息 -->
+	<insert id="addSubwayInfo" parameterType="com.lingku.xundao.systemmanager.pojo.SubwayLineInfo">
+		insert into
+		subway_line
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="subwayName != null and subwayName !='' and subwayName != 'null'">
+				subwayName,
+			</if>
+			<if test="createTime != null">
+				createTime,
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				createPerson,
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark,
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="subwayName != null and subwayName !='' and subwayName != 'null'">
+				#{subwayName},
+			</if>
+			<if test="createTime != null">
+				#{createTime},
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson != 'null'">
+				#{createPerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				#{remark},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更新地铁线路信息 -->
+	<update id="updateSubwayInfo" parameterType="com.lingku.xundao.systemmanager.pojo.SubwayLineInfo">
+		update
+		subway_line
+		<set>
+			<if
+				test="subwayName != null and subwayName != '' and subwayName != 'null'">
+				subwayName = #{subwayName},
+			</if>
+			<if test="updateTime != null">
+				updateTime = #{updateTime},
+			</if>
+			<if
+				test="updatePerson != null and updatePerson != '' and updatePerson != 'null'">
+				updatePerson = #{updatePerson},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null'">
+				remark = #{remark}
+			</if>
+		</set>
+		<where>
+			subId=#{subId}
+		</where>
+	</update>
+
+	<!-- 删除地铁线路信息 单个 -->
+	<delete id="delSubwayInfo" parameterType="java.lang.Integer">
+		delete
+		from
+		subway_line
+		where
+		subId = #{subId}
+	</delete>
+
+	<!-- 删除多个地铁线路信息 -->
+	<delete id="delMulitSubwayInfo">
+		delete from subway_line where subId in
+		<foreach item="subId" collection="array" open="(" separator=","
+			close=")">
+			#{subId}
+		</foreach>
+	</delete>
+
+
+
+
+</mapper>

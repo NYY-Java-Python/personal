@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lingku.xundao.systemmanager.mapper.RoleMapper">
+
+	<!-- 获取角色基础信息 -->
+	<select id="roleInfo" resultType="com.lingku.xundao.systemmanager.pojo.RoleInfo">
+		select
+		roleId,roleName,roleSign,remark,createById,
+		createTime
+		from
+
+		<where>
+			<if test="roleName != null and roleName != '' and roleName != 'null'">
+				roleName like concat('%',#{roleName},'%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 添加角色权限信息 -->
+	<insert id="addRoel" parameterType="com.lingku.xundao.systemmanager.pojo.RoleInfo">
+		insert into
+		sys_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="roleName != null and roleName != '' and roleName !='null'">
+				roleName,
+			</if>
+			<if test="remark != null and remark != '' and roleId !='null'">
+				remark,
+			</if>
+			<if test="roleSign != null and roleSign != '' and roleSign !='null'">
+				roleSign,
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson !='null'">
+				createPerson,
+			</if>
+			<if test="createTime != null">
+				createTime
+			</if>
+		</trim>
+		<trim prefix="values(" suffix=")" suffixOverrides=",">
+			<if test="roleName != null and roleName != '' and roleName !='null'">
+				#{roleName},
+			</if>
+			<if test="remark != null and remark != '' and roleId !='null'">
+				#{remark},
+			</if>
+
+			<if test="roleSign != null and roleSign != '' and roleSign !='null'">
+				#{roleSign},
+			</if>
+			<if
+				test="createPerson != null and createPerson != '' and createPerson !='null'">
+				#{createPerson},
+			</if>
+			<if test="createTime != null">
+				#{createTime}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 更新角色权限信息 -->
+	<update id="udpateRoleInfo" parameterType="com.lingku.xundao.systemmanager.pojo.RoleInfo">
+		update sys_role
+		<set>
+			<if test="roleName != null and roleName !='' and roleName != 'null'">
+				roleName = #{roleName},
+			</if>
+			<if test="remark != null and remark != '' and remark != 'null' ">
+				remark = #{remark}
+			</if>
+		</set>
+		where
+		roleId = #{roleId}
+	</update>
+
+	<!-- 删除角色信息 -->
+	<delete id="delRoleInfo" parameterType="java.lang.Integer">
+		delete
+		from
+		sys_role
+		where
+		roleId = #{roleId}
+	</delete>
+
+	<!-- 批量删除角色信息 -->
+	<delete id="delMulitRoleInfo">
+		delete from sys_role where roleId in
+		<foreach item="roleId" collection="array" open="(" separator=","
+			close=")">
+			#{roleId}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -34,7 +34,7 @@
 			<if test="taskTable != null and taskTable != '' and taskTable != 'null'">
 				taskTable = #{taskTable},
 			</if>
-			<if test="siteName != null and siteName !='' and siteName = 'null'">
+			<if test="siteName != null and siteName != '' and siteName != 'null'">
 				siteName = #{siteName},
 			</if>
 			<if test="magcardNum != null and magcardNum !='' and magcardNum != 'null'">

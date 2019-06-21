@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+	<!--定义 start -->
 	<!-- %m输出的信息,%p日志级别,%t线程名,%d日期,%c类的全名,,,, -->
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
@@ -7,6 +9,49 @@
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
+
+	<!--系统管理=工班管理 -->
+	<appender name="Work"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>D:/metropatrol日志/Work.log</File><!-- 输出的地址 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>D:/metropatrol日志/Work.log.%d.%i
+			</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- or whenever the file size reaches 64 MB -->
+				<maxFileSize>64 MB</maxFileSize><!-- 文件最大的大小 -->
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern><!-- 日志格式 -->
+				%d{yyyy-MM-dd HH:mm:ss},%m%n
+			</pattern>
+			<charset>UTF-8</charset> <!-- 此处设置字符集 -->
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter"><!-- 只保留INFO -->
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+
+	<!-- 系统管理=工班管理 -->
+	<logger name="Work" additivity="false">
+		<level value="info" />
+		<appender-ref ref="Work" />
+	</logger>
+
+
+
+
+
+	<!-- 控制台输出SQL -->
+	<!-- 系统管理=工班管理 -->
+	<logger name="com.lingku.xundao.systemmanager.mapper.WorkMapper">
+		<level value="DEBUG" />
+	</logger>
+
 
 	<!-- 将报错日志输出到控制台 -->
 	<logger name="CONSOLE" additivity="false">
@@ -17,4 +62,7 @@
 	<root level="INFO">
 		<appender-ref ref="CONSOLE" />
 	</root>
+
+
+
 </configuration>

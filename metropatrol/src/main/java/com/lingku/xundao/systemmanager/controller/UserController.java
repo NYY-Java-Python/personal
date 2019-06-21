@@ -42,8 +42,9 @@ public class UserController {
 
 	@RequestMapping(value = "userInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "获取用户基础信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
-			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+		@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer") })
 	public HashMap<String, Object> userInfo(UserInfo userInfo, BasePage base) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -126,13 +127,15 @@ public class UserController {
 
 	@RequestMapping(value = "updateUserInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "更新用户基础信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "name", value = "姓名", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "username", value = "用户名", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "deptId", value = "所属工班", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "email", value = "邮箱", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "status", value = "用户状态(0,正常1,禁用)", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "roleId", value = "用户角色id", required = true, dataType = "Integer") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "userId", value = "用户id", required = true, dataType = "String"),
+			@ApiImplicitParam(name = "name", value = "姓名", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "password", value = "密码", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "deptId", value = "所属工班", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "email", value = "邮箱", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "status", value = "用户状态(0,正常1,禁用)", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "roleId", value = "用户角色id", required = false, dataType = "Integer") })
 	public HashMap<String, Object> updateUserInfo(UserInfo userInfo) {
 
 		HashMap<String, Object> map = new HashMap<>();

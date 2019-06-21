@@ -42,13 +42,10 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "siteInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "获取所有站点信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
-			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer"),
-			@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
-			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer")
-
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+		@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer")
 	})
-
 	public HashMap<String, Object> siteInfo(PatSite patSite, BasePage base) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -87,10 +84,12 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "addSiteInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "增加站点信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "siteName", value = "站点名称", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "magcardNum", value = "磁卡编号", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "siteStatus", value = "站点状态(0正常,1禁用)", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "String") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "siteName", value = "站点名称", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "magcardNum", value = "磁卡编号", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "siteStatus", value = "站点状态(0正常,1禁用)", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "remark", value = "备注信息", required = false, dataType = "String")
+	})
 	public HashMap<String, Object> addSiteInfo(PatSite patSite) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -126,11 +125,13 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "updateSiteInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "更新站点信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "siteName", value = "站点名称", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "magcardNum", value = "磁卡编号", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "siteStatus", value = "站点状态(0正常,1禁用)", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "pId", value = "站点id", required = true, dataType = "Integer") })
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "siteName", value = "站点名称", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "magcardNum", value = "磁卡编号", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "siteStatus", value = "站点状态(0正常,1禁用)", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "remark", value = "备注信息", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "pId", value = "站点id", required = true, dataType = "Integer")
+	})
 	public HashMap<String, Object> updateSiteInfo(PatSite patSite) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -263,13 +264,14 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "addLineInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "添加线路信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "startSite", value = "请站点", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "endSite", value = "销站点", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "patrolType", value = "班组id", required = true, dataType = "Integer"),
 			@ApiImplicitParam(name = "patrolType", value = "巡线模式 (0.日常模式,1,节假日模式)", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "siteStatus", value = "线路状态(1正常,2禁用,默认1)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "Stirng") })
+	})
 	public HashMap<String, Object> addLineInfo(LineInfo lineInfo) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -303,13 +305,16 @@ public class SiteLineController {
 
 	@RequestMapping(value = "udpateLineInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "更新线路信息")
-	@ApiImplicitParams({ @ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "startSite", value = "请站点", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "endSite", value = "销站点", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "patrolType", value = "班组id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "patrolType", value = "巡线模式 (0.日常模式,1,节假日模式)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "siteStatus", value = "线路状态(1正常,2禁用,默认1)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "Stirng") })
+	@ApiImplicitParams({ 
+		
+		@ApiImplicitParam(name = "lId", value = "线路id", required = true, dataType = "integer"),
+			@ApiImplicitParam(name = "taskTable", value = "任务表名称", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "startSite", value = "请站点", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "endSite", value = "销站点", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "patrolType", value = "班组id", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "patrolType", value = "巡线模式 (0.日常模式,1,节假日模式)", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "siteStatus", value = "线路状态(1正常,2禁用,默认1)", required = false, dataType = "Stirng"),
+	})
 	public HashMap<String, Object> udpateLineInfo(LineInfo lineInfo) {
 
 		HashMap<String, Object> map = new HashMap<>();

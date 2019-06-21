@@ -73,7 +73,7 @@ public class RoleController {
 	@RequestMapping(value = "addRoel", method = RequestMethod.POST)
 	@ApiOperation(value = "添加角色信息-附带角色权限")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "Stirng") })
+			@ApiImplicitParam(name = "remark", value = "备注信息", required = false, dataType = "Stirng") })
 	public HashMap<String, Object> addRoel(RoleInfo roleInfo) {
 
 		roleInfo.setCreatePerson("admin");
@@ -108,8 +108,11 @@ public class RoleController {
 	 */
 	@ApiOperation(value = "更新角色信息-附带角色权限")
 	@RequestMapping(value = "udpateRoleInfo", method = RequestMethod.POST)
-	@ApiImplicitParams({ @ApiImplicitParam(name = "roleName", value = "角色名称", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "Stirng") })
+	@ApiImplicitParams({ 
+			
+		@ApiImplicitParam(name = "roleId", value = "角色id", required = true, dataType = "Integer"),
+			@ApiImplicitParam(name = "roleName", value = "角色名称", required = false, dataType = "String"),
+			@ApiImplicitParam(name = "remark", value = "备注信息", required = false, dataType = "Stirng") })
 	public HashMap<String, Object> udpateRoleInfo(RoleInfo roleInfo) {
 		HashMap<String, Object> map = new HashMap<>();
 		try {

@@ -151,13 +151,7 @@ public class LinePatController {
 	@RequestMapping(value = "updateLinePatInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "更新线路的某个站点信息")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "lpId", value = "线路站点绑定id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "patrolType", value = "巡线模式(0,日常模式,1节假日模式)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "lId", value = "任务表id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "taskTable", value = "任务表", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "siteName", value = "站点名称", required = true, dataType = "String"),
-			@ApiImplicitParam(name = "magcardNum", value = "磁卡编号)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "pId", value = "站点id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "Stirng") })
+	})
 	public HashMap<String, Object> updateLinePatInfo(PatLine patLine) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -214,8 +208,8 @@ public class LinePatController {
 			@ApiImplicitParam(name = "taskTable", value = "任务表", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "siteName", value = "站点名称", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "magcardNum", value = "磁卡编号)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "pId", value = "站点id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "remark", value = "备注信息", required = true, dataType = "Stirng") })
+			@ApiImplicitParam(name = "pId", value = "站点id", required = true, dataType = "Integer")
+})
 	public HashMap<String, Object> addLinePatInfo(PatLine patLine) {
 
 		HashMap<String, Object> map = new HashMap<>();

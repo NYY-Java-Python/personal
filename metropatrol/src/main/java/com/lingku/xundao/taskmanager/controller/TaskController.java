@@ -230,13 +230,15 @@ public class TaskController {
 	@RequestMapping(value = "updateTaskInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "任务管理-编辑/更新任务信息")
 	@ApiImplicitParams({ @ApiImplicitParam(name = "tId", value = "任务id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "lId", value = "任务表 id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "taskTable", value = "任务表", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "deptName", value = "班组名称", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "deptId", value = "班组id", required = true, dataType = "Integer"),
-			@ApiImplicitParam(name = "patrolType", value = "巡线模式 0.日常模式-1,节假日模式", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "taskStatus", value = "任务状态(待开始/新建0,进行中1,已完成2)", required = true, dataType = "Stirng"),
-			@ApiImplicitParam(name = "startTime", value = "任务开始时间 yyyy-MM-dd HH:mm:ss", required = true, dataType = "Stirng") })
+			@ApiImplicitParam(name = "lId", value = "线路 id", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "taskTable", value = "任务表", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "deptName", value = "班组名称", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "deptId", value = "班组id", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "patrolType", value = "巡线模式 0.日常模式-1,节假日模式", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "taskStatus", value = "任务状态(待开始/新建0,进行中1,已完成2)", required = false, dataType = "Stirng"),
+			@ApiImplicitParam(name = "startTime", value = "任务开始时间 yyyy-MM-dd HH:mm:ss", required = false, dataType = "Stirng") 
+	
+	})
 	public HashMap<String, Object> updateTaskInfo(TaskInfo taskInfo) {
 
 		HashMap<String, Object> map = new HashMap<>();

@@ -9,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.lingku.xundao.linesitemanager.pojo.LineInfo;
 import com.lingku.xundao.linesitemanager.pojo.PatSite;
 import com.lingku.xundao.linesitemanager.service.SiteLineService;
+import com.lingku.xundao.systemmanager.pojo.BasePage;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,14 +42,34 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "siteInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "获取所有站点信息")
-	public HashMap<String, Object> siteInfo(PatSite patSite) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer")
+
+	})
+
+	public HashMap<String, Object> siteInfo(PatSite patSite, BasePage base) {
 
 		HashMap<String, Object> map = new HashMap<>();
 
 		// System.err.println("参数===>" +patSite );
 		try {
-			List<PatSite> siteInfo = siteLineService.siteInfo(patSite);
-			map.put("info", siteInfo);
+
+			if (null == base || null == base.getCurrentPage() || null == base.getPageSize()) {
+				PageHelper.startPage(1, 10);
+			} else {
+				PageHelper.startPage(base.getCurrentPage(), base.getPageSize());
+			}
+
+			List<PatSite> Info = siteLineService.siteInfo(patSite);
+
+			if (!Info.isEmpty()) {
+				PageInfo<PatSite> siteInfo = new PageInfo<PatSite>(Info);
+				map.put("siteInfo", siteInfo);
+			} else {
+				map.put("message", "no data");
+			}
 			return map;
 		} catch (Exception e) {
 			System.err.println("SiteLineController:siteInfo===>" + e);
@@ -202,17 +225,27 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "lineInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "获取所有线路信息")
-	public HashMap<String, Object> lineInfo(LineInfo lineInfo) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer") })
+	public HashMap<String, Object> lineInfo(LineInfo lineInfo, BasePage base) {
 
 		HashMap<String, Object> map = new HashMap<>();
 		try {
 			// System.err.println("参数===>" +lineInfo );
-			List<LineInfo> info = siteLineService.lineInfo(lineInfo);
-			if (!info.isEmpty()) {
-				map.put("info", info);
-				return map;
+			if (null == base || null == base.getCurrentPage() || null == base.getPageSize()) {
+				PageHelper.startPage(1, 10);
+			} else {
+				PageHelper.startPage(base.getCurrentPage(), base.getPageSize());
 			}
-			map.put("message", "Nodata");
+
+			List<LineInfo> info = siteLineService.lineInfo(lineInfo);
+
+			if (!info.isEmpty()) {
+				PageInfo<LineInfo> lineInfos = new PageInfo<LineInfo>(info);
+				map.put("lineInfos", lineInfos);
+			} else {
+				map.put("message", "no data");
+			}
 			return map;
 		} catch (Exception e) {
 			System.err.println("SiteLineController:lineInfo===>" + e);
@@ -230,8 +263,7 @@ public class SiteLineController {
 	 */
 	@RequestMapping(value = "addLineInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "添加线路信息")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
+	@ApiImplicitParams({ @ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "startSite", value = "请站点", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "endSite", value = "销站点", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "patrolType", value = "班组id", required = true, dataType = "Integer"),
@@ -271,8 +303,7 @@ public class SiteLineController {
 
 	@RequestMapping(value = "udpateLineInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "更新线路信息")
-	@ApiImplicitParams({
-			@ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
+	@ApiImplicitParams({ @ApiImplicitParam(name = "taskTable", value = "任务表名称", required = true, dataType = "String"),
 			@ApiImplicitParam(name = "startSite", value = "请站点", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "endSite", value = "销站点", required = true, dataType = "Stirng"),
 			@ApiImplicitParam(name = "patrolType", value = "班组id", required = true, dataType = "Integer"),

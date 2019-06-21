@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lingku.xundao.systemmanager.pojo.BasePage;
 import com.lingku.xundao.systemmanager.pojo.UserInfo;
 import com.lingku.xundao.systemmanager.service.UserService;
 
@@ -39,14 +42,24 @@ public class UserController {
 
 	@RequestMapping(value = "userInfo", method = RequestMethod.POST)
 	@ApiOperation(value = "获取用户基础信息")
-	public HashMap<String, Object> userInfo(UserInfo userInfo) {
+	@ApiImplicitParams({ @ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+			@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer") })
+	public HashMap<String, Object> userInfo(UserInfo userInfo, BasePage base) {
 
 		HashMap<String, Object> map = new HashMap<>();
 		System.err.println(" 参数====>" + userInfo);
 		try {
+
+			if (null == base || null == base.getCurrentPage() || null == base.getPageSize()) {
+				PageHelper.startPage(1, 10);
+			} else {
+				PageHelper.startPage(base.getCurrentPage(), base.getPageSize());
+			}
+
 			List<UserInfo> userList = userService.userInfo(userInfo);
 			if (!userList.isEmpty()) {
-				map.put("info", userList);
+				PageInfo<UserInfo> userInfos = new PageInfo<UserInfo>(userList);
+				map.put("userInfos", userInfos);
 				return map;
 			}
 			map.put("message", "no data");

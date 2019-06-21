@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.jsp.tagext.PageData;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lingku.xundao.systemmanager.pojo.BasePage;
 import com.lingku.xundao.taskmanager.pojo.MainPageInfo;
 import com.lingku.xundao.taskmanager.pojo.TaskInfo;
 import com.lingku.xundao.taskmanager.service.TaskService;
@@ -47,10 +54,10 @@ public class TaskController {
 
 		HashMap<String, Object> map = new HashMap<>();
 		try {
-			List<MainPageInfo> info = taskService.mainPage();
+			List<MainPageInfo> mainInfo = taskService.mainPage();
 
-			if (!info.isEmpty()) {
-				map.put("info", info);
+			if (!mainInfo.isEmpty()) {
+				map.put("mainInfo", mainInfo);
 			} else {
 				map.put("message", "no data");
 			}
@@ -91,12 +98,17 @@ public class TaskController {
 
 		HashMap<String, Object> map = new HashMap<>();
 		try {
-			List<MainPageInfo> info = taskService.deptCout();
-			map.put("info", info);
+			List<MainPageInfo> mainInfo = taskService.deptCout();
+			
+			if (!mainInfo.isEmpty()) {
+				map.put("mainInfo", mainInfo);
+			} else {
+				map.put("message", "no data");
+			}
 			return map;
 		} catch (Exception e) {
 			System.err.println("TaskController:deptCout" + e);
-			map.put("info", "error");
+			map.put("message", "error");
 			return map;
 		}
 	}
@@ -178,17 +190,31 @@ public class TaskController {
 	 */
 	@RequestMapping(value = "tasklist", method = RequestMethod.POST)
 	@ApiOperation(value = "任务管理-查看任务列表")
-	public HashMap<String, Object> taskList(TaskInfo taskInfo) {
-
+	@ApiImplicitParams({ 
+		@ApiImplicitParam(name = "currentPage", value = "当前页", required = false, dataType = "Integer"),
+		@ApiImplicitParam(name = "pageSize", value = "每页显示数量", required = false, dataType = "Integer") 
+		})
+	public HashMap<String, Object> taskList(TaskInfo taskInfo, BasePage base) {
 		HashMap<String, Object> map = new HashMap<>();
-
 		try {
+
+			if (null == base || null == base.getCurrentPage() || null == base.getPageSize()) {
+				PageHelper.startPage(1, 10);
+			} else {
+				PageHelper.startPage(base.getCurrentPage(), base.getPageSize());
+			}
 			System.err.println("参数=====>" + taskInfo);
-			List<TaskInfo> tasklist = taskService.taskList(taskInfo);
-			map.put("info", tasklist);
+			List<TaskInfo> taskList = taskService.taskList(taskInfo);
+
+			if (!taskList.isEmpty()) {
+				PageInfo<TaskInfo> taskListInfo = new PageInfo<TaskInfo>(taskList);
+				map.put("taskListInfo", taskListInfo);
+			} else {
+				map.put("message", "no data");
+			}
 			return map;
 		} catch (Exception e) {
-			System.err.println("TaskController:taskList" + e);
+			System.err.println("TaskController:taskList===>" + e);
 			map.put("message", "error");
 			return map;
 		}
@@ -311,6 +337,7 @@ public class TaskController {
 	 * @param taskInfo
 	 * @return
 	 */
+
 	// @RequestMapping(value = "taskRecord", method = RequestMethod.POST)
 	// @ApiOperation(response = ResponseDataModel.class, value = "任务管理-查看任务记录")
 	// public HashMap<String, Object> taskRecord(TaskInfo taskInfo) {
@@ -318,5 +345,7 @@ public class TaskController {
 	// List<TaskInfo> taskRecore = taskService.taskRecord(taskInfo);
 	// return null;
 	// }
+
+
 
 }

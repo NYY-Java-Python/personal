@@ -18,11 +18,8 @@ import com.lingku.xundao.taskmanager.pojo.MainPageInfo;
 import com.lingku.xundao.taskmanager.pojo.TaskInfo;
 import com.lingku.xundao.taskmanager.service.TaskService;
 import com.lingku.xundao.taskmanager.utils.TaskUtil;
-import com.lk.common.model.ResponseDataModel;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
@@ -46,7 +43,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "historyCount", method = RequestMethod.GET)
-	@ApiOperation(response = ResponseDataModel.class, value = "历史统计")
+	@ApiOperation( value = "历史统计")
 	public HashMap<String, Object> historyCount() {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -87,7 +84,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "getTaskInfo", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "获取可分配的任务")
+	@ApiOperation(value = "获取可分配的任务")
 	public HashMap<String, Object> getTaskInfo() {
 		HashMap<String, Object> map = new HashMap<>();
 
@@ -140,7 +137,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "getSite", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "获取任务线路请销站点")
+	@ApiOperation( value = "获取任务线路请销站点")
 	public HashMap<String, Object> getSite(LineInfo info) {
 
 		// 1.任务线路id
@@ -177,7 +174,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "getSameDeptUserInfo", method = RequestMethod.GET)
-	@ApiOperation(response = ResponseDataModel.class, value = "获取登录用户的同工班用户信息")
+	@ApiOperation( value = "获取登录用户的同工班用户信息")
 	public HashMap<String, Object> getSameDeptUserInfo() {
 		HashMap<String, Object> map = new HashMap<>();
 		try {
@@ -217,7 +214,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "gerTaskRecord", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "获取所有任务记录")
+	@ApiOperation( value = "获取所有任务记录")
 	public HashMap<String, Object> gerTaskRecord(TaskInfo taskInfo) {
 		// 获取所有任务记录
 
@@ -244,7 +241,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "getUserInfo", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "更新密码-获取用户信息")
+	@ApiOperation( value = "更新密码-获取用户信息")
 	public HashMap<String, Object> getUserInfo() {
 		HashMap<String, Object> map = new HashMap<>();
 
@@ -275,7 +272,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "updatePassword", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "更新密码-更新密码")
+	@ApiOperation( value = "更新密码-更新密码")
 	public HashMap<String, Object> updatePassword(UserInfo userInfo) {
 
 		HashMap<String, Object> map = new HashMap<>();
@@ -302,7 +299,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "getDeptName", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "登录用户所属工班信息")
+	@ApiOperation(value = "登录用户所属工班信息")
 	public HashMap<String, Object> getDeptName() {
 
 		// Token中获取用户基本信息
@@ -335,7 +332,7 @@ public class AppTaskController {
 	 * @return
 	 */
 	@RequestMapping(value = "SignIn", method = RequestMethod.POST)
-	@ApiOperation(response = ResponseDataModel.class, value = "签到")
+	@ApiOperation( value = "签到")
 //	@ApiImplicitParams({ @ApiImplicitParam(name = "tId", value = "任务id", required = true, dataType = "Integer"),
 //		@ApiImplicitParam(name = "lId", value = "任务表 id", required = true, dataType = "Integer"),
 //		@ApiImplicitParam(name = "taskTable", value = "任务表", required = true, dataType = "Stirng"),
